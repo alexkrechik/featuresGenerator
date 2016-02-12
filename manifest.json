@@ -1,0 +1,19 @@
+{
+  "name": "Cucumber Features Generator",
+  "version": "0.1",
+  "description": "Generate Cucumbers Features based on WebdriverJS steps",
+  "author": "Alexander Krechik",
+
+  "permissions": [
+    "activeTab"
+  ],
+  "background": {
+    "persistent": false,
+    "scripts": ["js/background.js"]
+  },
+  "browser_action": {
+    "default_title": "Refresh locators highlighting"
+  },
+
+  "manifest_version": 2
+}
