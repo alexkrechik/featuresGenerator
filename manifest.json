@@ -12,13 +12,6 @@
     "persistent": false,
     "scripts": ["background.js"]
   },
-  "content_scripts" : [
-    {
-      "matches" : ["http://*/*"],
-      "css" : ["style.css"],
-      "js": ["myscripts.js"]
-    }
-  ],
   "browser_action": {
     "default_title": "Refresh locators highlighting"
   },

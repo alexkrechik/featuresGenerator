@@ -4,7 +4,7 @@ var locators = {
 };
 
 var markFoundElement = function(element) {
-	element.classList.add("fg-found-locator");
+	element.style.setProperty('border','thin solid #0000FF','important');
 }
 
 var markLocator = function (locator) {
