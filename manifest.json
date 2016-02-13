@@ -16,5 +16,7 @@
     "default_title": "Refresh locators highlighting"
   },
 
+  "devtools_page": "devtools.html",
+
   "manifest_version": 2
 }

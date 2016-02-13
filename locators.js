@@ -3,9 +3,9 @@ var locators = {
 	btnSearch : '//input[@name="btnK"]'
 };
 
-var markFoundElement = function(element) {
+var markFoundElement = function (element) {
 	element.style.setProperty('border','thin solid #0000FF','important');
-}
+};
 
 var markLocator = function (locator) {
 	try {
