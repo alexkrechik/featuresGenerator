@@ -13,6 +13,7 @@ Test version of chrome features generator plugin.
 * locators popups including their names
 * plugin panel
 * ability to add feature steps/actions manually
+* read Gherkhin steps from file
 
 ## Plans for future:
 * start/stop record button
