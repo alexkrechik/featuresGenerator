@@ -1,1 +1,5 @@
-document.getElementById("generatedFeatures").innerHTML += "<div>When I do first step</div>";
+function addText(text) {
+	document.getElementById("generatedFeatures").innerHTML += "<div>" + text + "</div>";
+}
+
+addText('When I do first step');
