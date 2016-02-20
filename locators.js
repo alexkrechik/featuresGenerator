@@ -16,7 +16,7 @@ var addElementTitle = function (element, page, locator) {
 
 var attOnClickListener = function (element, page, locator) {
 	element.addEventListener('click', function () {
-		console.log('When I click "' + page + '"."' + locator + '"');
+		log('When I click "' + page + '"."' + locator + '"');
 	})
 };
 
