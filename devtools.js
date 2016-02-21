@@ -3,13 +3,12 @@ chrome.devtools.panels.create("Features Generator",
 	null,
 	"panel.html",
 	function(extensionPanel) {
-		var _window; // Going to hold the reference to panel.html's `window`
+		var _window;
 
+		//If panel is opened - show message, add it to data[] otherwise
 		var data = [];
 		var port = chrome.runtime.connect({name: 'devtools'});
 		port.onMessage.addListener(function (msg) {
-			// Write information to the panel, if exists.
-			// If we don't have a panel reference (yet), queue the data.
 			if(_window) {
 				_window.addText(msg);
 			} else {
@@ -17,18 +16,13 @@ chrome.devtools.panels.create("Features Generator",
 			}
 		});
 
+		//Add all the messages got before panel was opened
 		extensionPanel.onShown.addListener(function tmp(panelWindow) {
-			extensionPanel.onShown.removeListener(tmp); // Run once only
+			extensionPanel.onShown.removeListener(tmp);
 			_window = panelWindow;
-
-			// Release queued data
 			var msg;
 			while (msg = data.shift())
 				_window.addText(msg);
-			// Just to show that it's easy to talk to pass a message back:
-			_window.respond = function (msg) {
-				port.postMessage(msg);
-			};
 		});
 	}
 );

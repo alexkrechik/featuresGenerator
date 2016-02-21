@@ -1,3 +1,3 @@
 function log(message) {
-	console.log(message);
+	chrome.extension.sendMessage(message);
 }
