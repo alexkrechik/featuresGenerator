@@ -3,3 +3,9 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 		file: '/locators.js'
 	});
 });
+
+chrome.runtime.onConnect.addListener(function (port) {
+	chrome.runtime.onMessage.addListener(function (message) {
+		port.postMessage(message);
+	});
+});

@@ -16,6 +16,14 @@
     "default_title": "Refresh locators highlighting"
   },
 
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    }
+  ],
+
   "devtools_page": "devtools.html",
 
   "manifest_version": 2
