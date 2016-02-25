@@ -2,6 +2,7 @@ var locators = {
 	mainPage: {
 		inputSearch : '//input[@name="q"]',
 		btnSearch : '//input[@name="btnK"]',
+		btnFeelingLucky : '//input[@name="btnI"]',
 		missingElement: '//div[@id="non_existing_on_this_page_element"]'
 	}
 };
@@ -16,7 +17,7 @@ var addElementTitle = function (element, page, locator) {
 
 var attOnClickListener = function (element, page, locator) {
 	element.addEventListener('click', function () {
-		log('When I click "' + page + '"."' + locator + '"');
+		sendMessage('When I click "' + page + '"."' + locator + '"');
 	})
 };
 
