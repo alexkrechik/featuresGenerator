@@ -1,11 +1,3 @@
-var locators = {
-	mainPage: {
-		inputSearch : '//input[@name="q"]',
-		btnSearch : '//input[@name="btnK"]',
-		missingElement: '//div[@id="non_existing_on_this_page_element"]'
-	}
-};
-
 var markFoundElement = function (element) {
 	element.style.setProperty('border','thin solid #0000FF','important');
 };
@@ -16,7 +8,7 @@ var addElementTitle = function (element, page, locator) {
 
 var attOnClickListener = function (element, page, locator) {
 	element.addEventListener('click', function () {
-		log('When I click "' + page + '"."' + locator + '"');
+		sendMessage({step: 'When I click "' + page + '"."' + locator + '"'});
 	})
 };
 
