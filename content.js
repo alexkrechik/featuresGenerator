@@ -5,3 +5,5 @@ function sendMessage(message) {
 function logMessage(message) {
 	console.log(message);
 }
+
+var locators;
