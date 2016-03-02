@@ -10,6 +10,7 @@ function logMessage(message) {
 
 var markFoundElement = function (element) {
 	element.style.setProperty('border','thin solid #0000FF','important');
+	element.classList.add('found-locator');
 };
 
 var addElementTitle = function (element, page, locator) {
@@ -20,6 +21,11 @@ var attOnClickListener = function (element, page, locator) {
 	element.addEventListener('click', function (event) {
 		if (event.altKey) {
 			sendMessage({step: 'When I click "' + page + '"."' + locator + '"'});
+			event.stopPropagation();
+			processLocators(locators);
+		}
+		if (event.shiftKey) {
+			sendMessage({step: 'Then "' + page + '"."' + locator + '" should be present'});
 			event.stopPropagation();
 			processLocators(locators);
 		}
@@ -36,7 +42,7 @@ var processLocators = function (locators) {
 			for (var locator in locators[page]) {
 				if (locators[page].hasOwnProperty(locator)) {
 					var element = getElement(locators[page][locator]);
-					if (element) {
+					if (element && !element.classList.contains('found-locator')) {
 						markFoundElement(element);
 						addElementTitle(element, page, locator);
 						attOnClickListener(element, page, locator);
