@@ -1,7 +1,7 @@
 # featuresGenerator
 0.1 version of chrome features generator plugin.
 
-## What able to do
+## What able to do:
 * Upload locators from page object module in plugin panel
 * Highlight found page objects via plugin button or after click
 * Add "When I click" step after locator clicking
