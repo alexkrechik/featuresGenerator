@@ -3,14 +3,22 @@
     <link rel="stylesheet" type="text/css" href="panel.css">
 </head>
 <body>
-    <input class="page-object-name">
+
+    <!--Files uploading-->
+    <label for="page-object-name">Page Name:</label>
+    <input id="page-object-name">
     <button class="file-upload">
         <input type="file" class="file-input" multiple>
-        Choose Locators File
     </button>
-    <button class="send-message">Upload locators</button>
+    <button id="upload-locators">Upload locators</button>
+    <br>
+    <div id="uploaded-locators"></div>
+
+    <!--Generated features-->
     <h1> Generated steps:</h1>
     <div id="generatedFeatures" contenteditable="true"></div>
+
+    <!--Scripts-->
     <script src="panel.js"></script>
 </body>
 </html>

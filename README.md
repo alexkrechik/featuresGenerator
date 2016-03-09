@@ -1,26 +1,20 @@
 # featuresGenerator
-Test version of chrome features generator plugin.
+0.1.1 version of chrome features generator plugin.
 
-## Including
-* chrome plugin creation
-* multiple locators, found by xpath, highlighting
-* basic onclick steps generating
-* locators popups including their names
-* plugin panel
+## How to use:
+* Open page u wanna automate in the browser
+* Open dev tools and proceed to the "Features Generator" section
+* Upload page objects in "module.exports" style (ex. "pageObjectsEx.js" in root dir)
+* Add some page name and upload locators
+* Add "I click" actions via "Alt" + click
+* Add "Should be present" actions via "Shift" + click
 
-## Will include (planning before 1.0 version released)
-* "Update locators" panel with messages/ability to manipulate page objects
-* replace some locators parts to correct (ex. change some unique ids to correct one)
-* onlick locators re-highlighting (including page loading completed)
-* ability to add feature steps/actions manually
-* right click/text type actions
+## 0.2 version plans
+* Add context menu with ability to add more actions
+* Add ability to perform some locators replacing using options page
+* Fix issue of app crashing after wrong page pbjects using
 
-## Plans for future:
-* start/stop record button
-* hotkeys
-* locators creation
-* smart manual adding of feature parts
-* plugin panel design
-* highlighting optimization - work with non-highlited elements only, cache locators
-* read Gherkhin steps from file
-* "I write" actions automatic adding
+## Nearest future plans:
+* "When I click" and "Should be present" fast adding
+* Many right click actions
+* Pack of bugfixes
