@@ -1,10 +1,18 @@
 # featuresGenerator
-0.1 version of chrome features generator plugin.
+0.1.1 version of chrome features generator plugin.
 
-## What able to do:
-* Upload locators from page object module in plugin panel
-* Highlight found page objects via plugin button or after click
-* Add "When I click" step after locator clicking
+## How to use:
+* Open page u wanna automate in the browser
+* Open dev tools and proceed to the "Features Generator" section
+* Upload page objects in "module.exports" style (ex. "pageObjectsEx.js" in root dir)
+* Add some page name and upload locators
+* Add "I click" actions via "Alt" + click
+* Add "Should be present" actions via "Shift" + click
+
+## 0.2 version plans
+* Add context menu with ability to add more actions
+* Add ability to perform some locators replacing using options page
+* Fix issue of app crashing after wrong page pbjects using
 
 ## Nearest future plans:
 * "When I click" and "Should be present" fast adding
