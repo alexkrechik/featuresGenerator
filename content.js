@@ -1,4 +1,4 @@
-var locators;
+var locators = {};
 
 function sendMessage(message) {
 	chrome.extension.sendMessage(message);
@@ -27,12 +27,12 @@ var attOnClickListener = function (element, page, locator) {
 			sendMessage({step: 'Then "' + page + '"."' + locator + '" should be present'});
 			event.stopPropagation();
 		}
-		processLocators(locators);
+		processLocators();
 	})
 };
 
 var getElement = function(locator) {
-	return document.evaluate(locator, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+		return document.evaluate(locator, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
 };
 
 var injectInvisibleValues = function(locator) {
@@ -60,26 +60,26 @@ var waitForXHRsToComplete = function(callback) {
 	}, timeout);
 }
 
-var processLocators = function (locators) {
+var processLocators = function () {
 	var page, locator;
-	for (page in locators) {
-		if (locators.hasOwnProperty(page)) {
-			for (locator in locators[page]) {
-				if (locators[page].hasOwnProperty(locator)) {
-					processLocator(locators[page][locator], page, locator)
+	waitForXHRsToComplete(function () {
+		for (page in locators) {
+			if (locators.hasOwnProperty(page)) {
+				for (locator in locators[page]) {
+					if (locators[page].hasOwnProperty(locator)) {
+						processLocator(locators[page][locator], page, locator)
+					}
 				}
 			}
 		}
-	}
+	});
 };
 
 var processLocator = function (pageObject, page, locator) {
 	var element = getElement(injectInvisibleValues(pageObject));
-	waitForXHRsToComplete(function () {
-		if (element && !element.classList.contains('found-locator')) {
-			markFoundElement(element);
-			addElementTitle(element, page, locator);
-			attOnClickListener(element, page, locator);
-		}
-	})
+	if (element && !element.classList.contains('found-locator')) {
+		markFoundElement(element);
+		addElementTitle(element, page, locator);
+		attOnClickListener(element, page, locator);
+	}
 }
