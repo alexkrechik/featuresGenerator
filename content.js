@@ -32,7 +32,14 @@ var attOnClickListener = function (element, page, locator) {
 };
 
 var getElement = function(locator) {
-		return document.evaluate(locator, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+	var element;
+	try {
+		element = document.evaluate(locator, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+	} catch(err) {
+		return null;
+	}
+	return element;
+
 };
 
 var injectInvisibleValues = function(locator) {
