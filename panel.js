@@ -5,10 +5,24 @@ function addText(text) {
 }
 
 function getlocators(data) {
-	data = data.replace(/.*function\(.*\) {/,'');
-	data = data.replace(/}(\r\n|\n|\r)*$/,'');
+	//Remove everything before module.exports
+	data = data.replace(/.*module.exports.*/,'');
+	//Remove last close and everething after it
+	data = data.replace(/};?(\r\n|\n|\r)*$/,'');
 	var evalStr = 'var func = function(){' + data + '}';
 	eval(evalStr);
+	function require() {
+		return new Proxy({},{
+			get: function(target) {
+				return new Proxy(target, {
+					get: function() {return new Proxy(target,{
+						apply: function() {return ''}
+					})},
+					apply: function() {return ''}
+				});
+			}
+		});
+	}
 	return func();
 }
 
