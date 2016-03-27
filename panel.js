@@ -73,6 +73,12 @@ document.getElementsByClassName('file-input')[0].addEventListener('change', func
 
 document.getElementById('upload-locators').addEventListener('click', function(){
 	var strJSON = JSON.stringify(locatorsString);
+	var replaces = document.getElementById('page-object-replace').value;
+	var arr = JSON.parse(replaces);
+	arr.forEach(function(strArr){
+		var regex = new RegExp(strArr[0], "g");
+		strJSON = strJSON.replace(regex,strArr[1]);
+	});
 	var locatorsPageName = document.getElementById('page-object-name').value;
 	var strAddLocatorsCommand = 'locators["' + locatorsPageName + '"] =' + strJSON + ';';
 	inspectedWindowEval(strAddLocatorsCommand, function(result, err){
