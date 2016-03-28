@@ -10,7 +10,7 @@ function logMessage(message) {
 
 var markFoundElement = function (element) {
 	element.style.setProperty('border','thin solid #0000FF','important');
-	element.classList.add('found-locator');
+	element.classList.add('fg-found-locator');
 };
 
 var addElementTitle = function (element, page, locator) {
@@ -84,7 +84,7 @@ var processLocators = function () {
 
 var processLocator = function (pageObject, page, locator) {
 	var element = getElement(injectInvisibleValues(pageObject));
-	if (element && !element.classList.contains('found-locator')) {
+	if (element && !element.classList.contains('fg-found-locator')) {
 		markFoundElement(element);
 		addElementTitle(element, page, locator);
 		attOnClickListener(element, page, locator);
