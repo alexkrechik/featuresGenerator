@@ -1,5 +1,6 @@
 var locators = {};
 
+
 function sendMessage(message) {
 	chrome.extension.sendMessage(message);
 }
@@ -31,6 +32,14 @@ var attOnClickListener = function (element, page, locator) {
 	})
 };
 
+var attOnRightClickListener = function (element, page, locator) {
+	element.addEventListener('contextmenu', function (event) {
+		event.stopPropagation();
+		event.preventDefault();
+		showMenu(event, page, locator);
+	}, false)
+};
+
 var getElement = function(locator) {
 	var element;
 	try {
@@ -39,7 +48,6 @@ var getElement = function(locator) {
 		return null;
 	}
 	return element;
-
 };
 
 var injectInvisibleValues = function(locator) {
@@ -51,7 +59,7 @@ var injectInvisibleValues = function(locator) {
 		locator = locator + '[' + injection;
 	}
 	return locator;
-}
+};
 
 var waitForXHRsToComplete = function(callback) {
 	var timeout = 150;
@@ -65,7 +73,7 @@ var waitForXHRsToComplete = function(callback) {
 			callback();
 		}
 	}, timeout);
-}
+};
 
 var processLocators = function () {
 	var page, locator;
@@ -88,5 +96,6 @@ var processLocator = function (pageObject, page, locator) {
 		markFoundElement(element);
 		addElementTitle(element, page, locator);
 		attOnClickListener(element, page, locator);
+		attOnRightClickListener(element, page, locator);
 	}
-}
+};
