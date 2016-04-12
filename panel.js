@@ -34,7 +34,7 @@ function clearLocator(fileName, locatorsPageName) {
 			addText(JSON.stringify(err) + err.message);
 		}
 	});
-	}
+}
 
 function addUploadedLocatorsFile(locatorsPageName, fileName) {
 	try {
@@ -76,8 +76,10 @@ document.getElementById('upload-locators').addEventListener('click', function(){
 	var replaces = document.getElementById('page-object-replace').value;
 	var arr = JSON.parse(replaces);
 	arr.forEach(function(strArr){
-		var regex = new RegExp(strArr[0], "g");
-		strJSON = strJSON.replace(regex,strArr[1]);
+		var from = strArr[0].replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+		var to = strArr[1];
+		var regex = new RegExp(from, "g");
+		strJSON = strJSON.replace(regex,to);
 	});
 	var locatorsPageName = document.getElementById('page-object-name').value;
 	var strAddLocatorsCommand = 'locators["' + locatorsPageName + '"] =' + strJSON + ';';
