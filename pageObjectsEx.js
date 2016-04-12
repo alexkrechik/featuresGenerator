@@ -1,5 +1,6 @@
 module.exports = function(context) {
 	return {
+		invalidElement : 'asdasd',
 		inputSearch : '//input[@name="q"]',
 		btnSearch : '//input[@name="btnK"]',
 		btnFeelingLucky : '//input[@name="btnI"]',

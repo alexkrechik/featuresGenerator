@@ -1,5 +1,6 @@
 var locators = {};
 
+
 function sendMessage(message) {
 	chrome.extension.sendMessage(message);
 }
@@ -10,7 +11,7 @@ function logMessage(message) {
 
 var markFoundElement = function (element) {
 	element.style.setProperty('border','thin solid #0000FF','important');
-	element.classList.add('found-locator');
+	element.classList.add('fg-found-locator');
 };
 
 var addElementTitle = function (element, page, locator) {
@@ -31,8 +32,22 @@ var attOnClickListener = function (element, page, locator) {
 	})
 };
 
+var attOnRightClickListener = function (element, page, locator) {
+	element.addEventListener('contextmenu', function (event) {
+		event.stopPropagation();
+		event.preventDefault();
+		showMenu(event, page, locator);
+	}, false)
+};
+
 var getElement = function(locator) {
-		return document.evaluate(locator, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+	var element;
+	try {
+		element = document.evaluate(locator, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+	} catch(err) {
+		return null;
+	}
+	return element;
 };
 
 var injectInvisibleValues = function(locator) {
@@ -44,7 +59,7 @@ var injectInvisibleValues = function(locator) {
 		locator = locator + '[' + injection;
 	}
 	return locator;
-}
+};
 
 var waitForXHRsToComplete = function(callback) {
 	var timeout = 150;
@@ -58,7 +73,7 @@ var waitForXHRsToComplete = function(callback) {
 			callback();
 		}
 	}, timeout);
-}
+};
 
 var processLocators = function () {
 	var page, locator;
@@ -77,9 +92,10 @@ var processLocators = function () {
 
 var processLocator = function (pageObject, page, locator) {
 	var element = getElement(injectInvisibleValues(pageObject));
-	if (element && !element.classList.contains('found-locator')) {
+	if (element && !element.classList.contains('fg-found-locator')) {
 		markFoundElement(element);
 		addElementTitle(element, page, locator);
 		attOnClickListener(element, page, locator);
+		attOnRightClickListener(element, page, locator);
 	}
-}
+};

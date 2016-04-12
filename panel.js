@@ -5,10 +5,24 @@ function addText(text) {
 }
 
 function getlocators(data) {
-	data = data.replace(/.*function\(.*\) {/,'');
-	data = data.replace(/}(\r\n|\n|\r)*$/,'');
+	//Remove everything before module.exports
+	data = data.replace(/.*module.exports.*/,'');
+	//Remove last close and everething after it
+	data = data.replace(/};?(\r\n|\n|\r)*$/,'');
 	var evalStr = 'var func = function(){' + data + '}';
 	eval(evalStr);
+	function require() {
+		return new Proxy({},{
+			get: function(target) {
+				return new Proxy(target, {
+					get: function() {return new Proxy(target,{
+						apply: function() {return ''}
+					})},
+					apply: function() {return ''}
+				});
+			}
+		});
+	}
 	return func();
 }
 
@@ -20,7 +34,7 @@ function clearLocator(fileName, locatorsPageName) {
 			addText(JSON.stringify(err) + err.message);
 		}
 	});
-	}
+}
 
 function addUploadedLocatorsFile(locatorsPageName, fileName) {
 	try {
@@ -59,6 +73,14 @@ document.getElementsByClassName('file-input')[0].addEventListener('change', func
 
 document.getElementById('upload-locators').addEventListener('click', function(){
 	var strJSON = JSON.stringify(locatorsString);
+	var replaces = document.getElementById('page-object-replace').value;
+	var arr = JSON.parse(replaces);
+	arr.forEach(function(strArr){
+		var from = strArr[0].replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+		var to = strArr[1];
+		var regex = new RegExp(from, "g");
+		strJSON = strJSON.replace(regex,to);
+	});
 	var locatorsPageName = document.getElementById('page-object-name').value;
 	var strAddLocatorsCommand = 'locators["' + locatorsPageName + '"] =' + strJSON + ';';
 	inspectedWindowEval(strAddLocatorsCommand, function(result, err){

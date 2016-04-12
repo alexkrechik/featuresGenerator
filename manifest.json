@@ -1,6 +1,6 @@
 {
   "name": "Cucumber Features Generator",
-  "version": "0.1.1",
+  "version": "0.2",
   "description": "Generate Cucumbers Features based on WebdriverJS steps",
   "author": "Alexander Krechik",
 
@@ -18,7 +18,7 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["content.js"],
+      "js": ["menu.js", "content.js"],
       "run_at": "document_start"
     }
   ],
@@ -26,6 +26,8 @@
   "devtools_page": "devtools.html",
 
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+
+  "minimum_chrome_version": "49",
 
   "manifest_version": 2
 }
