@@ -8,6 +8,7 @@ var steps = [
 	'"page"."locator" has text ""',
 	'"page"."locator" has value ""',
 	'"page"."locator" should not be present',
+	'"page"."locator"',
 	{'Element attributes' : [
 		'"page"."locator" CSS "" should be nearly ""',
 		'"page"."locator" CSS "" should contain ""',
