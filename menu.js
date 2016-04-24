@@ -102,7 +102,7 @@ function createMenu (page, locator) {
 function addMenuElements(page, locator, steps, parent) {
 	for (var i = 0; i < steps.length; i++) {
 		if (typeof steps[i] === 'object') {
-
+			//TODO - second level menu creation
 		} else {
 			document.getElementById('menu').appendChild(createMenuElement(steps[i], page, locator));
 		}
