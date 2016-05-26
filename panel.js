@@ -1,7 +1,30 @@
 var locatorsString;
 
+function generateStepText(text) {
+	if (document.getElementById("bdd-term-replace").checked) {
+		var currStep = text.match(/^[A-Za-z]*/)[0];
+		var stepsArr = document.getElementById("generatedFeatures").innerText.split(/\n/);
+		var lastStep = "";
+		for (var i = stepsArr.length - 1; i >=0; i--) {
+			lastStep = stepsArr[i].match(/^[A-Za-z]*/)[0];
+			if (lastStep !== 'And') {
+				if (lastStep === currStep) {
+					var re = new RegExp("^" + currStep);
+					text = text.replace(re, "And");
+				}
+				return text;
+			}
+		}
+	}
+	return text;
+}
+
 function addText(text) {
 	document.getElementById("generatedFeatures").innerHTML += "<div>" + text + "</div>";
+}
+
+function addStepText(text) {
+	addText(generateStepText(text));
 }
 
 function getlocators(data) {

@@ -10,7 +10,7 @@ chrome.devtools.panels.create("Features Generator",
 		var port = chrome.runtime.connect({name: 'devtools'});
 		port.onMessage.addListener(function (msg) {
 			if(_window) {
-				_window.addText(msg.step);
+				_window.addStepText(msg.step);
 			} else {
 				data.push(msg.step);
 			}
@@ -22,7 +22,7 @@ chrome.devtools.panels.create("Features Generator",
 			_window = panelWindow;
 			var msg;
 			while (msg = data.shift())
-				_window.addText(msg.step);
+				_window.addStepText(msg.step);
 
 		});
 
