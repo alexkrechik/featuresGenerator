@@ -49,6 +49,20 @@ var steps = [
 	]}
 ];
 
+var stepsArr = [];
+(function() {
+	var step;
+	for (step in steps) {
+		if (typeof step === string) {
+			stepsArr.push(step);
+		} else if (typeof step == "object") {
+			for (var a in step) {
+				stepsArr.concat(a);
+			}
+		}
+	}
+})();
+
 function showMenu (e, page, locator) {
 
 	var menu = createMenu(page, locator);
