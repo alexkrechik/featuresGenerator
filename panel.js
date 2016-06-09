@@ -1,4 +1,5 @@
 var locatorsString;
+var menu;
 
 function generateStepText(text) {
 	if (document.getElementById("bdd-term-replace").checked) {
@@ -15,11 +16,16 @@ function generateStepText(text) {
 				return text;
 			}
 		}
+	} else {
+		return text;
 	}
-	return text;
 }
 
-function addText(text) {
+function autoComplete() {
+	return document.getElementById("auto-steps-complete").checked;
+}
+
+function addText (text) {
 	document.getElementById("generatedFeatures").innerHTML += "<div>" + text + "</div>";
 }
 
@@ -121,3 +127,12 @@ document.getElementById('upload-locators').addEventListener('click', function(){
 		}
 	});
 },false);
+
+document.getElementById('auto-steps-complete').addEventListener('click', function(e){
+	if(autoComplete()) {
+		document.getElementById('steps_suggestions_block').style.display = 'table-cell';
+	} else {
+		document.getElementById('steps_suggestions_block').style.display = 'none';
+	}
+});
+

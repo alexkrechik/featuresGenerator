@@ -3,26 +3,38 @@
     <link rel="stylesheet" type="text/css" href="panel.css">
 </head>
 <body>
-
-    <!--Files uploading-->
-    <label for="page-object-name">Page Name:</label>
-    <input id="page-object-name">
-    <button class="file-upload">
-        <input type="file" class="file-input" multiple>
-    </button>
-    <button id="upload-locators">Upload locators</button>
-    <br>
-    <div id="uploaded-locators"></div>
-    <label for="page-object-replace">Replaces array:</label>
-    <input id="page-object-replace" value='[["$dynamicId$","1458817077732"]]' size="40">
-    <label for="bdd-term-replace">Auto add And term:</label>
-    <input type="checkbox" id="bdd-term-replace">
-
-    <!--Generated features-->
-    <h1> Generated steps:</h1>
-    <div id="generatedFeatures" contenteditable="true"></div>
-
-    <!--Scripts-->
+    <div id="panel_content">
+        <div id="pages_part">
+            <div id="files_uploading">
+                <label for="page-object-name">Page Name:</label>
+                <input id="page-object-name">
+                <button class="file-upload">
+                    <input type="file" class="file-input" multiple>
+                </button>
+                <button id="upload-locators">Upload locators</button>
+                <br>
+            </div>
+            <div id="panel_settings">
+                <div id="uploaded-locators"></div>
+                <label for="page-object-replace">Replaces array:</label>
+                <input id="page-object-replace" value='[["$dynamicId$","1458817077732"]]' size="40">
+                <label for="bdd-term-replace">Auto add And term:</label>
+                <input type="checkbox" id="bdd-term-replace">
+                <label for="auto-steps-complete">Auto steps complete:</label>
+                <input type="checkbox" id="auto-steps-complete">
+            </div>
+        </div>
+        <div id="steps_part">
+            <div id="generated_steps_section">
+                <h1> Generated steps:</h1>
+                <div id="generatedFeatures" contenteditable="true"></div>
+            </div>
+            <div id="steps_suggestions_block">
+                <h1> Steps variants:</h1>
+                <div id="steps_suggestions"></div>
+            </div>
+        </div>
+    </div>
     <script src="panel.js"></script>
 </body>
 </html>
