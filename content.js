@@ -36,7 +36,8 @@ var attOnRightClickListener = function (element, page, locator) {
 	element.addEventListener('contextmenu', function (event) {
 		event.stopPropagation();
 		event.preventDefault();
-		showMenu(event, page, locator);
+		var menu = createMenu(getSteps(steps, page, locator));
+		showMenu(menu, event.clientX, event.clientY);
 	}, false)
 };
 

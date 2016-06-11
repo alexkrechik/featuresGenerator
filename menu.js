@@ -53,9 +53,9 @@ var stepsArr = [];
 (function() {
 	var step;
 	for (step in steps) {
-		if (typeof step === string) {
+		if (typeof step === 'string') {
 			stepsArr.push(step);
-		} else if (typeof step == "object") {
+		} else if (typeof step == 'object') {
 			for (var a in step) {
 				stepsArr.concat(a);
 			}
@@ -63,12 +63,7 @@ var stepsArr = [];
 	}
 })();
 
-function showMenu (e, page, locator) {
-
-	var menu = createMenu(page, locator);
-
-	var x = e.clientX;
-	var y = e.clientY;
+function showMenu (menu, x, y) {
 
 	windowWidth = window.innerWidth;
 	windowHeight = window.innerHeight;
@@ -97,7 +92,7 @@ function clearMenu () {
 	}
 }
 
-function createMenu (page, locator) {
+function createMenu (steps) {
 	clearMenu();
 	menu = document.createElement('div');
 	menu.setAttribute('id','menu');
@@ -109,23 +104,25 @@ function createMenu (page, locator) {
 		}
 	});
 	document.getElementsByTagName('body')[0].appendChild(menu);
-	addMenuElements(page, locator, steps);
+	steps.forEach(function(step) {
+		menu.appendChild(createMenuElement(step));
+	});
 	return menu;
 }
 
-function addMenuElements(page, locator, steps, parent) {
+function getSteps(steps, page, locator, query) {
+	//TODO - add steps filter by guery provided
 	for (var i = 0; i < steps.length; i++) {
 		if (typeof steps[i] === 'object') {
 			//TODO - second level menu creation
 		} else {
-			document.getElementById('menu').appendChild(createMenuElement(steps[i], page, locator));
+			steps[i] = steps[i].replace('"page"','"' + page + '"');
+			steps[i] = steps[i].replace('"locator"','"' + locator + '"');
 		}
 	}
 }
 
-function createMenuElement(text, page, locator) {
-	text = text.replace('"page"','"' + page + '"');
-	text = text.replace('"locator"','"' + locator + '"');
+function createMenuElement(text) {
 	var element = document.createElement('a');
 	if (text) {
 		element.textContent = text;
