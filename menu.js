@@ -112,14 +112,18 @@ function createMenu (steps) {
 
 function getSteps(steps, page, locator, query) {
 	//TODO - add steps filter by guery provided
+	var res = [];
 	for (var i = 0; i < steps.length; i++) {
 		if (typeof steps[i] === 'object') {
 			//TODO - second level menu creation
 		} else {
-			steps[i] = steps[i].replace('"page"','"' + page + '"');
-			steps[i] = steps[i].replace('"locator"','"' + locator + '"');
+			var step = steps[i];
+			step = step.replace('"page"','"' + page + '"');
+			step = step.replace('"locator"','"' + locator + '"');
+			res.push(step);
 		}
 	}
+	return res;
 }
 
 function createMenuElement(text) {
