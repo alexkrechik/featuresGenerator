@@ -28,3 +28,7 @@
     border-width: 1px;
     height:90%;
 }
+
+.current_suggestion {
+    background-color: yellow;
+}

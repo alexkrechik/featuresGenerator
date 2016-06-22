@@ -27,10 +27,9 @@ chrome.devtools.panels.create("Features Generator",
 	        chrome.devtools.inspectedWindow.getResources(function (resources) {
 		        var menu = resources.find(function(el){ return el.url.match(/menu.js/)});
 		        menu.getContent(function(content) {
-			        _window.menu = content;
+			        _window.eval(content);
 		        });
 	        });
         });
 
-    }
-);
+    });

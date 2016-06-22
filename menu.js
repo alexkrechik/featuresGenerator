@@ -49,20 +49,6 @@ var steps = [
 	]}
 ];
 
-var stepsArr = [];
-(function() {
-	var step;
-	for (step in steps) {
-		if (typeof step === 'string') {
-			stepsArr.push(step);
-		} else if (typeof step == 'object') {
-			for (var a in step) {
-				stepsArr.concat(a);
-			}
-		}
-	}
-})();
-
 function showMenu (menu, x, y) {
 
 	windowWidth = window.innerWidth;
@@ -110,16 +96,15 @@ function createMenu (steps) {
 	return menu;
 }
 
-function getSteps(steps, page, locator, query) {
-	//TODO - add steps filter by guery provided
+function getSteps(steps, page, locator) {
 	var res = [];
 	for (var i = 0; i < steps.length; i++) {
 		if (typeof steps[i] === 'object') {
 			//TODO - second level menu creation
 		} else {
 			var step = steps[i];
-			step = step.replace('"page"','"' + page + '"');
-			step = step.replace('"locator"','"' + locator + '"');
+			page &&  (step = step.replace('"page"','"' + page + '"'));
+			locator && (step = step.replace('"locator"','"' + locator + '"'));
 			res.push(step);
 		}
 	}

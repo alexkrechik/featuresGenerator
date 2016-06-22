@@ -1,6 +1,8 @@
 var locatorsString;
 var menu;
 
+
+
 function generateStepText(text) {
 	if (document.getElementById("bdd-term-replace").checked) {
 		var currStep = text.match(/^[A-Za-z]*/)[0];
@@ -136,3 +138,130 @@ document.getElementById('auto-steps-complete').addEventListener('click', functio
 	}
 });
 
+function getStepsArr(steps) {
+	var arr = [];
+	var step;
+	steps.forEach(function(step) {
+		if (typeof step === 'string') {
+			arr.push(step);
+		} else {
+			for (var key in step) {
+				step[key].forEach(function(lowerStep) {
+					arr.push(lowerStep)
+				});
+			}
+		}
+	});
+	return arr;
+}
+
+function filterSteps(steps, text) {
+	var res = [];
+	steps.forEach(function(step) {
+		var re = new RegExp(text, 'i');
+		if (step.match(re)) {
+			res.push(step);
+		}
+	});
+	return res;
+}
+
+function getCurrText(e) {
+	var text = window.getSelection().focusNode.textContent;
+	var code = e.keyCode;
+	var letter = String.fromCharCode(code);
+	if (letter.match(/[A-Z]/)) {
+		text += letter.toLocaleLowerCase();
+	} else if(e.keyCode === 8) {
+		text = text.substr(0, text.length - 1);
+	}
+	return text;
+
+}
+
+function createSuggestion(text) {
+	var element = document.createElement('a');
+	element.textContent = text;
+	element.setAttribute('href','#');
+	element.setAttribute('class','suggestion');
+	element.style.display = 'flex';
+	element.style.margin = "5";
+	element.addEventListener('click', function() {
+		window.getSelection().focusNode.textContent = text;
+	});
+	return element;
+}
+
+function populateAutoComplete(e) {
+	if(autoComplete()) {
+		document.getElementById('steps_suggestions').innerHTML = "";
+		var currText = getCurrText(e);
+		var stepsArr = getStepsArr(steps);
+		var resSteps = filterSteps(stepsArr, currText);
+		resSteps.forEach(function(step){
+			document.getElementById('steps_suggestions').appendChild(createSuggestion(step));
+		});
+		highlightSuggestion();
+	}
+}
+
+document.getElementById('generatedFeatures').addEventListener('keydown', function (e) {
+	var arrCode = [38, 40, 10];
+	var keyCode = e.keyCode;
+	if (arrCode.indexOf(keyCode) === -1) {
+		populateAutoComplete(e);
+	}
+});
+
+function highlightSuggestion(num) {
+	var suggestions = document.getElementsByClassName('suggestion');
+	var current = document.getElementsByClassName('current_suggestion')[0];
+	var other;
+	switch(num) {
+		case 'first':
+		default:
+			if (suggestions[0]) {
+				current = suggestions[0];
+				addCurrentClassName(current);
+			}
+			break;
+		case 'next':
+			if (other = current.nextElementSibling) {
+				addCurrentClassName(other);
+				removeCurrentClass(current);
+			}
+			break;
+		case 'previous':
+			if (other = current.previousElementSibling) {
+				addCurrentClassName(other);
+				removeCurrentClass(current);
+			}
+	}
+}
+
+function removeCurrentClass(e) {
+	e.className = e.className.replace( new RegExp('(?:^|\\s)current_suggestion(?!\\S)') ,'');
+}
+
+function addCurrentClassName(e) {
+	e.className += ' current_suggestion';
+}
+
+document.addEventListener('keydown', function(event){
+	if(autoComplete()) {
+		switch(event.keyCode) {
+			case 38:
+				highlightSuggestion('previous');
+				break;
+			case 40:
+				highlightSuggestion('next');
+				break;
+			case 10:
+				var currstep = document.getElementsByClassName('current_suggestion')[0].text;
+				if (currstep) {
+					window.getSelection().focusNode.textContent = currstep;
+				}
+				break;
+		}
+	}
+});
