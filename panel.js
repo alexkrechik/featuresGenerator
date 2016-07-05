@@ -1,6 +1,57 @@
 var locatorsString;
 var menu;
 
+// var steps = [
+// 	'Then "page"."locator" should be present',
+// 	'When I click "page"."locator"',
+// 	'When I clear "page"."locator"',
+// 	'When I write "" to "page"."locator"',
+// 	'When I wait and click "page"."locator"',
+// 	'Then "page"."locator" CSS "" should contain ""',
+// 	'Then "page"."locator" has text ""',
+// 	'Then "page"."locator" has value ""',
+// 	'Then "page"."locator" should not be present',
+// 	'Then "page"."locator"',
+// 	{'Element attributes' : [
+// 		'Then "page"."locator" CSS "" should be nearly ""',
+// 		'Then "page"."locator" CSS "" should contain ""',
+// 		'Then "page"."locator" CSS "" should contain "".""',
+// 		'Then "page"."locator" attribute "" should contain ""',
+// 		'Then "page"."locator" attribute "" should not contain ""',
+// 		'Then "page"."locator" has text ""',
+// 		'Then "page"."locator" has text "".""',
+// 		'Then "page"."locator" has value ""',
+// 		'Then "page"."locator" has value "".""',
+// 		'Then "page"."locator" value equals ""',
+// 		'When I wait for "page"."locator" to match ""',
+// 		'When I wait for "page"."locator" to match "".""'
+// 	]},
+// 	{'Element state' : [
+// 		'Then "page"."locator" should be disabled',
+// 		'Then "page"."locator" should be enabled',
+// 		'Then "page"."locator" should be present',
+// 		'Then "page"."locator" should be selected',
+// 		'Then "page"."locator" should not be present',
+// 		'Then "page"."locator" should not be selected',
+// 		'Then "page"."locator" value should be present in ""."" dd'
+// 	]},
+// 	{'Actions' : [
+// 		'When I clear "page"."locator"',
+// 		'When I click "page"."locator" at dropdown button',
+// 		'When I click "page"."locator" if present',
+// 		'When I doubleclick "page"."locator"',
+// 		'When I focus "page"."locator"',
+// 		'When I moveTo "page"."locator"',
+// 		'When I scroll "page"."locator" element into view',
+// 		'When I set inner HTML value "" to "page"."locator"',
+// 		'When I switch to "page"."locator" frame',
+// 		'When I upload "" to "page"."locator"',
+// 		'When I wait and click "page"."locator"',
+// 		'When I write "" to "page"."locator"',
+// 		'When I write ""."" to "page"."locator"'
+// 	]}
+// ];
+
 function generateStepText(text) {
 	if (document.getElementById("bdd-term-replace").checked) {
 		var currStep = text.match(/^[A-Za-z]*/)[0];
@@ -174,7 +225,6 @@ function getCurrText(e) {
 		text = text.substr(0, text.length - 1);
 	}
 	return text;
-
 }
 
 function createSuggestion(text) {
@@ -193,9 +243,10 @@ function createSuggestion(text) {
 function populateAutoComplete(e) {
 	if(autoComplete()) {
 		document.getElementById('steps_suggestions').innerHTML = "";
+		var resSteps;
 		var currText = getCurrText(e);
 		var stepsArr = getStepsArr(steps);
-		var resSteps = filterSteps(stepsArr, currText);
+		resSteps = filterSteps(stepsArr, currText);
 		resSteps.forEach(function(step){
 			document.getElementById('steps_suggestions').appendChild(createSuggestion(step));
 		});
@@ -204,7 +255,7 @@ function populateAutoComplete(e) {
 }
 
 document.getElementById('generatedFeatures').addEventListener('keydown', function (e) {
-	var arrCode = [38, 40, 10];
+	var arrCode = [38, 40, 13];
 	var keyCode = e.keyCode;
 	if (arrCode.indexOf(keyCode) === -1) {
 		populateAutoComplete(e);
@@ -232,7 +283,7 @@ function highlightSuggestion(num) {
 				}
 				break;
 			case 'previous':
-				if (current && (oother = current.previousElementSibling)) {
+				if (current && (other = current.previousElementSibling)) {
 					addCurrentClassName(other);
 					removeCurrentClass(current);
 					event.preventDefault();
@@ -249,6 +300,28 @@ function addCurrentClassName(e) {
 	e.className += ' current_suggestion';
 }
 
+function insertStep(currStep) {
+	if (currStep && currStep !== window.getSelection().focusNode.textContent) {
+		//Insert currStep text
+		var sel, range;
+		sel = window.getSelection();
+		window.getSelection().focusNode.textContent = "";
+		range = sel.getRangeAt(0);
+		var newNode = document.createTextNode(currStep);
+		range.insertNode(newNode);
+
+		//move the cursor
+		range.setStartAfter(newNode);
+		range.setEndAfter(newNode);
+		sel.removeAllRanges();
+		sel.addRange(range);
+
+		//prevent default actions
+		event.preventDefault();
+		window.getSelection().focusNode.textContent = currStep;
+	}
+}
+
 document.addEventListener('keydown', function(event){
 	if(autoComplete()) {
 		switch(event.keyCode) {
@@ -257,16 +330,11 @@ document.addEventListener('keydown', function(event){
 				break;
 			case 40:
 				highlightSuggestion('next');
-				event.preventDefault();
 				break;
 			case 13:
 				var currEl = document.getElementsByClassName('current_suggestion')[0];
 				if (currEl) {
-					var currstep = currEl.text;
-					if (currstep && currstep !== window.getSelection().focusNode.textContent) {
-						window.getSelection().focusNode.textContent = currstep;
-						event.preventDefault();
-					}
+					insertStep(currEl.text);
 					break;
 				}
 		}
