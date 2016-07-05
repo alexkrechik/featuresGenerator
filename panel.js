@@ -1,8 +1,6 @@
 var locatorsString;
 var menu;
 
-
-
 function generateStepText(text) {
 	if (document.getElementById("bdd-term-replace").checked) {
 		var currStep = text.match(/^[A-Za-z]*/)[0];
@@ -217,25 +215,29 @@ function highlightSuggestion(num) {
 	var suggestions = document.getElementsByClassName('suggestion');
 	var current = document.getElementsByClassName('current_suggestion')[0];
 	var other;
-	switch(num) {
-		case 'first':
-		default:
-			if (suggestions[0]) {
-				current = suggestions[0];
-				addCurrentClassName(current);
-			}
-			break;
-		case 'next':
-			if (other = current.nextElementSibling) {
-				addCurrentClassName(other);
-				removeCurrentClass(current);
-			}
-			break;
-		case 'previous':
-			if (other = current.previousElementSibling) {
-				addCurrentClassName(other);
-				removeCurrentClass(current);
-			}
+	if (suggestions) {
+		switch(num) {
+			case 'first':
+			default:
+				if (suggestions[0]) {
+					current = suggestions[0];
+					addCurrentClassName(current);
+				}
+				break;
+			case 'next':
+				if (current && (other = current.nextElementSibling)) {
+					addCurrentClassName(other);
+					removeCurrentClass(current);
+					event.preventDefault();
+				}
+				break;
+			case 'previous':
+				if (current && (oother = current.previousElementSibling)) {
+					addCurrentClassName(other);
+					removeCurrentClass(current);
+					event.preventDefault();
+				}
+		}
 	}
 }
 
@@ -255,13 +257,18 @@ document.addEventListener('keydown', function(event){
 				break;
 			case 40:
 				highlightSuggestion('next');
+				event.preventDefault();
 				break;
-			case 10:
-				var currstep = document.getElementsByClassName('current_suggestion')[0].text;
-				if (currstep) {
-					window.getSelection().focusNode.textContent = currstep;
+			case 13:
+				var currEl = document.getElementsByClassName('current_suggestion')[0];
+				if (currEl) {
+					var currstep = currEl.text;
+					if (currstep && currstep !== window.getSelection().focusNode.textContent) {
+						window.getSelection().focusNode.textContent = currstep;
+						event.preventDefault();
+					}
+					break;
 				}
-				break;
 		}
 	}
 });
