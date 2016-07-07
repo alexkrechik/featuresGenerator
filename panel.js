@@ -1,56 +1,56 @@
 var locatorsString;
 var menu;
 
-// var steps = [
-// 	'Then "page"."locator" should be present',
-// 	'When I click "page"."locator"',
-// 	'When I clear "page"."locator"',
-// 	'When I write "" to "page"."locator"',
-// 	'When I wait and click "page"."locator"',
-// 	'Then "page"."locator" CSS "" should contain ""',
-// 	'Then "page"."locator" has text ""',
-// 	'Then "page"."locator" has value ""',
-// 	'Then "page"."locator" should not be present',
-// 	'Then "page"."locator"',
-// 	{'Element attributes' : [
-// 		'Then "page"."locator" CSS "" should be nearly ""',
-// 		'Then "page"."locator" CSS "" should contain ""',
-// 		'Then "page"."locator" CSS "" should contain "".""',
-// 		'Then "page"."locator" attribute "" should contain ""',
-// 		'Then "page"."locator" attribute "" should not contain ""',
-// 		'Then "page"."locator" has text ""',
-// 		'Then "page"."locator" has text "".""',
-// 		'Then "page"."locator" has value ""',
-// 		'Then "page"."locator" has value "".""',
-// 		'Then "page"."locator" value equals ""',
-// 		'When I wait for "page"."locator" to match ""',
-// 		'When I wait for "page"."locator" to match "".""'
-// 	]},
-// 	{'Element state' : [
-// 		'Then "page"."locator" should be disabled',
-// 		'Then "page"."locator" should be enabled',
-// 		'Then "page"."locator" should be present',
-// 		'Then "page"."locator" should be selected',
-// 		'Then "page"."locator" should not be present',
-// 		'Then "page"."locator" should not be selected',
-// 		'Then "page"."locator" value should be present in ""."" dd'
-// 	]},
-// 	{'Actions' : [
-// 		'When I clear "page"."locator"',
-// 		'When I click "page"."locator" at dropdown button',
-// 		'When I click "page"."locator" if present',
-// 		'When I doubleclick "page"."locator"',
-// 		'When I focus "page"."locator"',
-// 		'When I moveTo "page"."locator"',
-// 		'When I scroll "page"."locator" element into view',
-// 		'When I set inner HTML value "" to "page"."locator"',
-// 		'When I switch to "page"."locator" frame',
-// 		'When I upload "" to "page"."locator"',
-// 		'When I wait and click "page"."locator"',
-// 		'When I write "" to "page"."locator"',
-// 		'When I write ""."" to "page"."locator"'
-// 	]}
-// ];
+var steps = [
+	'Then "page"."locator" should be present',
+	'When I click "page"."locator"',
+	'When I clear "page"."locator"',
+	'When I write "" to "page"."locator"',
+	'When I wait and click "page"."locator"',
+	'Then "page"."locator" CSS "" should contain ""',
+	'Then "page"."locator" has text ""',
+	'Then "page"."locator" has value ""',
+	'Then "page"."locator" should not be present',
+	'Then "page"."locator"',
+	{'Element attributes' : [
+		'Then "page"."locator" CSS "" should be nearly ""',
+		'Then "page"."locator" CSS "" should contain ""',
+		'Then "page"."locator" CSS "" should contain "".""',
+		'Then "page"."locator" attribute "" should contain ""',
+		'Then "page"."locator" attribute "" should not contain ""',
+		'Then "page"."locator" has text ""',
+		'Then "page"."locator" has text "".""',
+		'Then "page"."locator" has value ""',
+		'Then "page"."locator" has value "".""',
+		'Then "page"."locator" value equals ""',
+		'When I wait for "page"."locator" to match ""',
+		'When I wait for "page"."locator" to match "".""'
+	]},
+	{'Element state' : [
+		'Then "page"."locator" should be disabled',
+		'Then "page"."locator" should be enabled',
+		'Then "page"."locator" should be present',
+		'Then "page"."locator" should be selected',
+		'Then "page"."locator" should not be present',
+		'Then "page"."locator" should not be selected',
+		'Then "page"."locator" value should be present in ""."" dd'
+	]},
+	{'Actions' : [
+		'When I clear "page"."locator"',
+		'When I click "page"."locator" at dropdown button',
+		'When I click "page"."locator" if present',
+		'When I doubleclick "page"."locator"',
+		'When I focus "page"."locator"',
+		'When I moveTo "page"."locator"',
+		'When I scroll "page"."locator" element into view',
+		'When I set inner HTML value "" to "page"."locator"',
+		'When I switch to "page"."locator" frame',
+		'When I upload "" to "page"."locator"',
+		'When I wait and click "page"."locator"',
+		'When I write "" to "page"."locator"',
+		'When I write ""."" to "page"."locator"'
+	]}
+];
 
 function generateStepText(text) {
 	if (document.getElementById("bdd-term-replace").checked) {
@@ -82,6 +82,16 @@ function addText (text) {
 
 function addStepText(text) {
 	addText(generateStepText(text));
+}
+
+function markHighlightStatus(step) {
+	if (autoComplete()) {
+		inspectedWindowEval('currSuggestion = \'' + step + '\';', function(result, err) {
+			if (err) {
+				addText(JSON.stringify(err) + err.message);
+			}
+		});
+	}
 }
 
 function getlocators(data) {
@@ -215,8 +225,18 @@ function filterSteps(steps, text) {
 	return res;
 }
 
+function getDivFocusText() {
+	var text = window.getSelection().focusNode.parentElement.innerText;
+	var textArr = text.split('\n');
+	return textArr[textArr.length - 1];
+}
+
+function setDivFocusText(text, newline) {
+	window.getSelection().focusNode.textContent = text;
+}
+
 function getCurrText(e) {
-	var text = window.getSelection().focusNode.textContent;
+	var text = getDivFocusText();
 	var code = e.keyCode;
 	var letter = String.fromCharCode(code);
 	if (letter.match(/[A-Z]/)) {
@@ -301,7 +321,8 @@ function addCurrentClassName(e) {
 }
 
 function insertStep(currStep) {
-	if (currStep && currStep !== window.getSelection().focusNode.textContent) {
+	var textContent = getDivFocusText();
+	if (currStep && currStep !== textContent) {
 		//Insert currStep text
 		var sel, range;
 		sel = window.getSelection();
@@ -319,10 +340,11 @@ function insertStep(currStep) {
 		//prevent default actions
 		event.preventDefault();
 		window.getSelection().focusNode.textContent = currStep;
+		markHighlightStatus(currStep);
 	}
 }
 
-document.addEventListener('keydown', function(event){
+document.addEventListener('keydown', function(event) {
 	if(autoComplete()) {
 		switch(event.keyCode) {
 			case 38:

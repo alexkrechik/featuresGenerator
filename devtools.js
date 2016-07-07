@@ -9,11 +9,16 @@ chrome.devtools.panels.create("Features Generator",
         var data = [];
         var port = chrome.runtime.connect({name: 'devtools'});
         port.onMessage.addListener(function (msg) {
-            if(_window) {
-                _window.addStepText(msg.step);
-            } else {
-                data.push(msg.step);
+            if (msg.step) {
+	            if(_window) {
+		            _window.addStepText(msg.step);
+	            } else {
+		            data.push(msg.step);
+	            }
+            } else if (msg.suggestion) {
+	            _window.setDivFocusText(msg.suggestion);
             }
+
         });
 
         //Add all the messages got before panel was opened
