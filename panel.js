@@ -226,7 +226,6 @@ function eventUploadLocators(){
 		addError(err, 'Upload locators error');
 	}
 	var strAddLocatorsCommand = 'locators["' + locatorsPageName + '"] =' + strJSON + ';';
-	addText(strAddLocatorsCommand);
 	inspectedWindowEval(strAddLocatorsCommand, function(result, err){
 		if (err) {
 			addError(err, 'Applying locators error');

@@ -1,4 +1,4 @@
-var locators = {
+locators = {
 	// page1: {
 	// 	invalidElement : 'asdasd',
 	// 	inputSearch : '//input[@name="q"]',
