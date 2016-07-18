@@ -1,11 +1,11 @@
 var locators = {
-	page1: {
-		invalidElement : 'asdasd',
-		inputSearch : '//input[@name="q"]',
-		btnSearch : '//input[@name="btnK"]',
-		btnFeelingLucky : '//input[@name="btnI"]',
-		missingElement: '//div[@id="non_existing_on_this_page_element"]'
-	}
+	// page1: {
+	// 	invalidElement : 'asdasd',
+	// 	inputSearch : '//input[@name="q"]',
+	// 	btnSearch : '//input[@name="btnK"]',
+	// 	btnFeelingLucky : '//input[@name="btnI"]',
+	// 	missingElement: '//div[@id="non_existing_on_this_page_element"]'
+	// }
 };
 
 var currSuggestion;
