@@ -297,6 +297,10 @@ function highlightSuggestion(num) {
 	}
 }
 
+function clearSuggestions() {
+	document.getElementById('steps_suggestions').innerHTML = "";
+}
+
 //******** GENERATED STEPS *******************************************************************************************//
 
 function addText (text) {
