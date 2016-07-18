@@ -1,60 +1,55 @@
 var steps = [
 	'Then "page"."locator" should be present',
 	'When I click "page"."locator"',
-	'I clear "page"."locator"',
-	'I write "" to "page"."locator"',
-	'I wait and click "page"."locator"',
-	'"page"."locator" CSS "" should contain ""',
-	'"page"."locator" has text ""',
-	'"page"."locator" has value ""',
-	'"page"."locator" should not be present',
-	'"page"."locator"',
+	'When I clear "page"."locator"',
+	'When I write "" to "page"."locator"',
+	'When I wait and click "page"."locator"',
+	'Then "page"."locator" CSS "" should contain ""',
+	'Then "page"."locator" has text ""',
+	'Then "page"."locator" has value ""',
+	'Then "page"."locator" should not be present',
+	'Then "page"."locator"',
 	{'Element attributes' : [
-		'"page"."locator" CSS "" should be nearly ""',
-		'"page"."locator" CSS "" should contain ""',
-		'"page"."locator" CSS "" should contain "".""',
-		'"page"."locator" attribute "" should contain ""',
-		'"page"."locator" attribute "" should not contain ""',
-		'"page"."locator" has text ""',
-		'"page"."locator" has text "".""',
-		'"page"."locator" has value ""',
-		'"page"."locator" has value "".""',
-		'"page"."locator" value equals ""',
-		'I wait for "page"."locator" to match ""',
-		'I wait for "page"."locator" to match "".""'
+		'Then "page"."locator" CSS "" should be nearly ""',
+		'Then "page"."locator" CSS "" should contain ""',
+		'Then "page"."locator" CSS "" should contain "".""',
+		'Then "page"."locator" attribute "" should contain ""',
+		'Then "page"."locator" attribute "" should not contain ""',
+		'Then "page"."locator" has text ""',
+		'Then "page"."locator" has text "".""',
+		'Then "page"."locator" has value ""',
+		'Then "page"."locator" has value "".""',
+		'Then "page"."locator" value equals ""',
+		'When I wait for "page"."locator" to match ""',
+		'When I wait for "page"."locator" to match "".""'
 	]},
 	{'Element state' : [
-		'"page"."locator" should be disabled',
-		'"page"."locator" should be enabled',
-		'"page"."locator" should be present',
-		'"page"."locator" should be selected',
-		'"page"."locator" should not be present',
-		'"page"."locator" should not be selected',
-		'"page"."locator" value should be present in ""."" dd'
+		'Then "page"."locator" should be disabled',
+		'Then "page"."locator" should be enabled',
+		'Then "page"."locator" should be present',
+		'Then "page"."locator" should be selected',
+		'Then "page"."locator" should not be present',
+		'Then "page"."locator" should not be selected',
+		'Then "page"."locator" value should be present in ""."" dd'
 	]},
 	{'Actions' : [
-		'I clear "page"."locator"',
-		'I click "page"."locator" at dropdown button',
-		'I click "page"."locator" if present',
-		'I doubleclick "page"."locator"',
-		'I focus "page"."locator"',
-		'I moveTo "page"."locator"',
-		'I scroll "page"."locator" element into view',
-		'I set inner HTML value "" to "page"."locator"',
-		'I switch to "page"."locator" frame',
-		'I upload "" to "page"."locator"',
-		'I wait and click "page"."locator"',
-		'I write "" to "page"."locator"',
-		'I write ""."" to "page"."locator"'
+		'When I clear "page"."locator"',
+		'When I click "page"."locator" at dropdown button',
+		'When I click "page"."locator" if present',
+		'When I doubleclick "page"."locator"',
+		'When I focus "page"."locator"',
+		'When I moveTo "page"."locator"',
+		'When I scroll "page"."locator" element into view',
+		'When I set inner HTML value "" to "page"."locator"',
+		'When I switch to "page"."locator" frame',
+		'When I upload "" to "page"."locator"',
+		'When I wait and click "page"."locator"',
+		'When I write "" to "page"."locator"',
+		'When I write ""."" to "page"."locator"'
 	]}
 ];
 
-function showMenu (e, page, locator) {
-
-	var menu = createMenu(page, locator);
-
-	var x = e.clientX;
-	var y = e.clientY;
+function showMenu (menu, x, y) {
 
 	windowWidth = window.innerWidth;
 	windowHeight = window.innerHeight;
@@ -83,7 +78,7 @@ function clearMenu () {
 	}
 }
 
-function createMenu (page, locator) {
+function createMenu (steps) {
 	clearMenu();
 	menu = document.createElement('div');
 	menu.setAttribute('id','menu');
@@ -95,23 +90,28 @@ function createMenu (page, locator) {
 		}
 	});
 	document.getElementsByTagName('body')[0].appendChild(menu);
-	addMenuElements(page, locator, steps);
+	steps.forEach(function(step) {
+		menu.appendChild(createMenuElement(step));
+	});
 	return menu;
 }
 
-function addMenuElements(page, locator, steps, parent) {
+function getSteps(steps, page, locator) {
+	var res = [];
 	for (var i = 0; i < steps.length; i++) {
 		if (typeof steps[i] === 'object') {
-
+			//TODO - second level menu creation
 		} else {
-			document.getElementById('menu').appendChild(createMenuElement(steps[i], page, locator));
+			var step = steps[i];
+			page &&  (step = step.replace('"page"','"' + page + '"'));
+			locator && (step = step.replace('"locator"','"' + locator + '"'));
+			res.push(step);
 		}
 	}
+	return res;
 }
 
-function createMenuElement(text, page, locator) {
-	text = text.replace('"page"','"' + page + '"');
-	text = text.replace('"locator"','"' + locator + '"');
+function createMenuElement(text) {
 	var element = document.createElement('a');
 	if (text) {
 		element.textContent = text;

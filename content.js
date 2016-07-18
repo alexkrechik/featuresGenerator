@@ -1,5 +1,14 @@
-var locators = {};
+locators = {
+	// page1: {
+	// 	invalidElement : 'asdasd',
+	// 	inputSearch : '//input[@name="q"]',
+	// 	btnSearch : '//input[@name="btnK"]',
+	// 	btnFeelingLucky : '//input[@name="btnI"]',
+	// 	missingElement: '//div[@id="non_existing_on_this_page_element"]'
+	// }
+};
 
+var currSuggestion;
 
 function sendMessage(message) {
 	chrome.extension.sendMessage(message);
@@ -18,15 +27,35 @@ var addElementTitle = function (element, page, locator) {
 	element.title = '"' + page + '"."' + locator + '"';
 };
 
-var attOnClickListener = function (element, page, locator) {
-	element.addEventListener('click', function (event) {
-		if (event.altKey) {
-			sendMessage({step: 'When I click "' + page + '"."' + locator + '"'});
+var attMouseMoveListeners = function (element) {
+	element.addEventListener('mouseover', function (event) {
+		if (currSuggestion) {
+			element.className += ' active_element';
 			event.stopPropagation();
 		}
-		if (event.shiftKey) {
-			sendMessage({step: 'Then "' + page + '"."' + locator + '" should be present'});
-			event.stopPropagation();
+	});
+	element.addEventListener('mouseout', function (event) {
+		element.className = element.className.replace( new RegExp('(?:^|\\s)active_element(?!\\S)') ,'');
+		event.stopPropagation();
+	});
+};
+
+var attOnClickListener = function (element, page, locator) {
+	element.addEventListener('click', function (event) {
+		if (currSuggestion) {
+			var step = currSuggestion;
+			step = step.replace('"page"','"' + page + '"');
+			step = step.replace('"locator"','"' + locator + '"');
+			sendMessage({suggestion: step});
+		} else {
+			if (event.altKey) {
+				sendMessage({step: 'When I click "' + page + '"."' + locator + '"'});
+				event.stopPropagation();
+			}
+			if (event.shiftKey) {
+				sendMessage({step: 'Then "' + page + '"."' + locator + '" should be present'});
+				event.stopPropagation();
+			}
 		}
 		processLocators();
 	})
@@ -36,7 +65,8 @@ var attOnRightClickListener = function (element, page, locator) {
 	element.addEventListener('contextmenu', function (event) {
 		event.stopPropagation();
 		event.preventDefault();
-		showMenu(event, page, locator);
+		var menu = createMenu(getSteps(steps, page, locator));
+		showMenu(menu, event.clientX, event.clientY);
 	}, false)
 };
 
@@ -97,5 +127,6 @@ var processLocator = function (pageObject, page, locator) {
 		addElementTitle(element, page, locator);
 		attOnClickListener(element, page, locator);
 		attOnRightClickListener(element, page, locator);
+		attMouseMoveListeners(element);
 	}
 };
