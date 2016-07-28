@@ -144,18 +144,23 @@ function getlocators(data) {
 	data = data.replace(/};?(\r\n|\n|\r)*$/,'');
 	var evalStr = 'var func = function(){' + data + '}';
 	eval(evalStr);
-	function require() {
-		return new Proxy({},{
-			get: function(target) {
-				return new Proxy(target, {
-					get: function() {return new Proxy(target,{
-						apply: function() {return ''}
-					})},
-					apply: function() {return ''}
-				});
-			}
-		});
+	function require(param) {
+		if (typeof param === 'string') {
+			param = {};
+		}
+		return new Proxy(param, handler);
 	}
+	var handler = {
+		get: function (target, key, receiver) {
+			if (!(key in target)) {
+				target[key] = require(function(){});
+			}
+			return Reflect.get(target, key, receiver);
+		},
+		apply: function() {
+			return '';
+		}
+	};
 	return func();
 }
 
@@ -194,7 +199,7 @@ function eventFileInput(){
 			var text = reader.result;
 			locatorsString = getlocators(text);
 		} catch(err) {
-			addText(err, 'Error during file reading');
+			addError(err, 'Error during file reading');
 		}
 	};
 	reader.readAsText(file);
