@@ -116,7 +116,7 @@ function createMenuElement(text) {
 	if (text) {
 		element.textContent = text;
 	}
-	element.setAttribute('href','#');
+	// element.setAttribute('href','');
 	element.style.display = 'flex';
 	element.style.margin = "5";
 	element.addEventListener('click', function() {
