@@ -1,6 +1,6 @@
 {
   "name": "Cucumber Features Generator",
-  "version": "0.3",
+  "version": "0.4",
   "description": "Generate Cucumbers Features based on WebdriverJS steps",
   "author": "Alexander Krechik",
 

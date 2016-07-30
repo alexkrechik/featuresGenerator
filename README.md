@@ -1,5 +1,5 @@
 # featuresGenerator
-0.3 version of chrome features generator plugin.
+0.4 version of chrome features generator plugin.
 
 ## How to use:
 ### - Open features generator plugin
@@ -23,7 +23,5 @@
 * Choose step u need from "Steps variants" panel using mouse or keyboard arrows + Enter key
 * Click on some highlighted element on page to replace "page"."object" to correct locator name
 
-## added in 0.3 version of plugin:
-* Added "Auto Steps Complete" mode
-* Added "Auto add 'And' term" functional
-* Some bugfixes
+## added in 0.4 version of plugin:
+* Pack of bugfixes
