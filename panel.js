@@ -269,6 +269,7 @@ function createSuggestion(text) {
 	element.style.margin = "5";
 	element.addEventListener('click', function(e) {
 		setDivFocusText(text);
+		markHighlightStatus(text);
 		highlightSuggestionEvent(e);
 	});
 	return element;
