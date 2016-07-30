@@ -1,6 +1,12 @@
 # featuresGenerator
 0.4 version of chrome features generator plugin.
 
+## How to install:
+### Download plugin folder
+### Open Chrome Extension page (chrome://extensions)
+### Check "Developer Mode"
+### Load plugin folder using "Load unpacked extension..."
+
 ## How to use:
 ### - Open features generator plugin
 * Open page u wanna automate in the browser
