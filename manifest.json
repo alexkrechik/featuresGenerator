@@ -1,6 +1,6 @@
 {
   "name": "Cucumber Features Generator",
-  "version": "0.3",
+  "version": "0.4",
   "description": "Generate Cucumbers Features based on WebdriverJS steps",
   "author": "Alexander Krechik",
 
@@ -19,8 +19,7 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["menu.js", "content.js"],
-      "run_at": "document_start"
+      "js": ["menu.js", "content.js"]
     }
   ],
 

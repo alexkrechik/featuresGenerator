@@ -105,6 +105,7 @@ function markHighlightStatus(step) {
 }
 
 function removeCurrentClass(e) {
+	e = e || document.getElementsByClassName('current_suggestion')[0];
 	e.className = e.className.replace( new RegExp('(?:^|\\s)current_suggestion(?!\\S)') ,'');
 }
 
@@ -144,18 +145,24 @@ function getlocators(data) {
 	data = data.replace(/};?(\r\n|\n|\r)*$/,'');
 	var evalStr = 'var func = function(){' + data + '}';
 	eval(evalStr);
-	function require() {
-		return new Proxy({},{
-			get: function(target) {
-				return new Proxy(target, {
-					get: function() {return new Proxy(target,{
-						apply: function() {return ''}
-					})},
-					apply: function() {return ''}
-				});
-			}
-		});
+	//node require proxy
+	function require(param) {
+		if (typeof param === 'string') {
+			param = {};
+		}
+		return new Proxy(param, handler);
 	}
+	var handler = {
+		get: function (target, key, receiver) {
+			if (!(key in target)) {
+				target[key] = require(function(){});
+			}
+			return Reflect.get(target, key, receiver);
+		},
+		apply: function() {
+			return '';
+		}
+	};
 	return func();
 }
 
@@ -194,7 +201,7 @@ function eventFileInput(){
 			var text = reader.result;
 			locatorsString = getlocators(text);
 		} catch(err) {
-			addText(err, 'Error during file reading');
+			addError(err, 'Error during file reading');
 		}
 	};
 	reader.readAsText(file);
@@ -260,10 +267,17 @@ function createSuggestion(text) {
 	element.setAttribute('class','suggestion');
 	element.style.display = 'flex';
 	element.style.margin = "5";
-	element.addEventListener('click', function() {
+	element.addEventListener('click', function(e) {
 		setDivFocusText(text);
+		markHighlightStatus(text);
+		highlightSuggestionEvent(e);
 	});
 	return element;
+}
+
+function highlightSuggestionEvent(e) {
+	removeCurrentClass();
+	addCurrentClassName(e.target);
 }
 
 function highlightSuggestion(num) {
@@ -273,7 +287,7 @@ function highlightSuggestion(num) {
 	if (suggestions) {
 		switch(num) {
 			case 'first':
-			default:
+			case undefined:
 				if (suggestions[0]) {
 					current = suggestions[0];
 					addCurrentClassName(current);
@@ -281,15 +295,15 @@ function highlightSuggestion(num) {
 				break;
 			case 'next':
 				if (current && (other = current.nextElementSibling)) {
+					removeCurrentClass();
 					addCurrentClassName(other);
-					removeCurrentClass(current);
 					event.preventDefault();
 				}
 				break;
 			case 'previous':
 				if (current && (other = current.previousElementSibling)) {
+					removeCurrentClass();
 					addCurrentClassName(other);
-					removeCurrentClass(current);
 					event.preventDefault();
 				}
 		}
@@ -396,7 +410,7 @@ function populateAutoComplete(e) {
 }
 
 function generatedFeaturesKeyDown(e) {
-	var arrCode = [38, 40, 13];
+	var arrCode = [38, 40, 13, 91];
 	var keyCode = e.keyCode;
 	if (arrCode.indexOf(keyCode) === -1) {
 		populateAutoComplete(e);
