@@ -8,12 +8,6 @@
 * Navigate in the resulting file dialog box to the extension folder (featuresGenerator-master) with a manifest.json file
 * Click "Select" button and that’s it - the extension icon will appear on the extensions bar of your browser
 
-## How to install:
-### Download plugin folder
-### Open Chrome Extension page (chrome://extensions)
-### Check "Developer Mode"
-### Load plugin folder using "Load unpacked extension..."
-
 ## How to use:
 ### Open features generator plugin
 * Open page that you want to automate in the browser
