@@ -1,5 +1,7 @@
 # featuresGenerator
-0.4 version of chrome features generator plugin. Requires **Chrome version 49** or greater.
+[[CHANGELOG](https://github.com/alexkrechik/featuresGenerator/blob/master/CHANGELOG.md)]
+
+Chrome features generator plugin. Requires **Chrome version 49** or greater.
 
 ## How to install from Github repository:
 * Download the extension as a .zip by clicking on "Clone or download" and then “Download ZIP” button on the right side of the project page
@@ -32,6 +34,3 @@
 * Start to input step in the "Generated steps" field
 * Choose step u need from "Steps variants" panel using mouse or keyboard arrows + Enter key
 * Click on some highlighted element on page to replace "page"."object" to correct locator name
-
-## added in 0.4 version of plugin:
-* Pack of bugfixes
