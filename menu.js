@@ -55,7 +55,8 @@ function showMenu (menu, x, y) {
 	windowHeight = window.innerHeight;
 
 	menu.style.position = "fixed";
-	menu.style.zIndex = 1000;
+	//Sorry about that
+	menu.style.zIndex = 2147483647;
 	menu.style.backgroundColor = "white";
 
 	var elementHeight = menu.clientHeight;
