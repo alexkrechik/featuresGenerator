@@ -23,3 +23,9 @@
     color: #33a1de;
     cursor: pointer;
 }
+
+.suggestion-mode {
+    border-color: #33a1de;
+    border-width: 10px;
+    border-style: solid;
+}

@@ -96,7 +96,7 @@ function filterSteps(steps, text) {
 
 function markHighlightStatus(step) {
 	if (autoComplete()) {
-		inspectedWindowEval('currSuggestion = \'' + step + '\';', function(result, err) {
+		inspectedWindowEval('setSuggestionMode(\'' + step + '\');', function(result, err) {
 			if (err) {
 				addError(err, 'Error during statuses highlighting');
 			}
