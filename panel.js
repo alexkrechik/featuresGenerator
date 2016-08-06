@@ -125,7 +125,7 @@ function eventKeyDownDocument(event) {
 			case 13:
 				var currEl = document.getElementsByClassName('current_suggestion')[0];
 				if (currEl) {
-					insertStep(currEl.text);
+					insertStep(currEl.text, event);
 					break;
 				}
 		}
@@ -266,11 +266,10 @@ function createSuggestion(text) {
 	element.setAttribute('href','#');
 	element.setAttribute('class','suggestion');
 	element.style.display = 'flex';
-	element.style.margin = "5";
+	element.style.margin = '5';
 	element.addEventListener('click', function(e) {
-		setDivFocusText(text);
-		markHighlightStatus(text);
 		highlightSuggestionEvent(e);
+		insertStep(text);
 	});
 	return element;
 }
@@ -317,7 +316,22 @@ function clearSuggestions() {
 //******** GENERATED STEPS *******************************************************************************************//
 
 function addText (text) {
-	document.getElementById("generatedFeatures").innerHTML += "<div>" + text + "</div>";
+	var features = document.getElementById("generatedFeatures");
+	var childs = features.childNodes;
+	if (childs.length === 0) {
+		//Insert new div for empty generatedFeatures element
+		features.innerHTML += "<div>" + text + "</div>";
+	} else {
+		//If last string is empty - set it innerText to text
+		//Create newline div otherwise
+		var lastChild = childs[childs.length - 1];
+		var lastChildText = lastChild.innerHTML && lastChild.innerHTML.toString();
+		if (!lastChildText || lastChildText === '<br>') {
+			lastChild.innerHTML = text;
+		} else {
+			features.innerHTML += "<div>" + text + "</div>";
+		}
+	}
 }
 
 function generateStepText(text) {
@@ -340,10 +354,6 @@ function generateStepText(text) {
 	}
 }
 
-function addStepText(text) {
-	addText(generateStepText(text));
-}
-
 function getDivFocusText() {
 	var text = window.getSelection().focusNode.parentElement.innerText;
 	var textArr = text.split('\n');
@@ -363,33 +373,14 @@ function getCurrText(e) {
 	return text;
 }
 
-function setDivFocusText(text, newline) {
-
-	//Insert currStep text
-	var sel, range;
-	sel = window.getSelection();
-	window.getSelection().focusNode.textContent = "";
-	range = sel.getRangeAt(0);
-	var newNode = document.createTextNode(text);
-	range.insertNode(newNode);
-
-	//move the cursor
-	range.setStartAfter(newNode);
-	range.setEndAfter(newNode);
-	sel.removeAllRanges();
-	sel.addRange(range);
-
-	//newline
-	if (newline) {
-		var div = document.createElement("div");
-		sel.focusNode.parentElement.parentElement.appendChild(div);
-	}
+function setSelectionText(text) {
+	window.getSelection().focusNode.textContent = text;
 }
 
-function insertStep(currStep) {
+function insertStep(currStep, event) {
 	var textContent = getDivFocusText();
 	if (currStep && currStep !== textContent) {
-		setDivFocusText(currStep);
+		setSelectionText(currStep);
 		markHighlightStatus(currStep);
 		event.preventDefault();
 	}
