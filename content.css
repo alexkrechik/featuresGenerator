@@ -1,8 +1,25 @@
+.fg-found-locator {
+    border: thin solid #0000FF !important;
+}
+
 .fg-found-locator:hover {
     background-color: #ADD8E6 !important;
     opacity: 1;
 }
 
-.fg-found-locator {
-    border: thin solid #0000FF !important;
+.active_element {
+    background-color: #add8e6 !important;
+    opacity: 1;
+}
+
+.steps-option {
+    display: flex;
+    margin: 2px;
+    padding: 2px;
+}
+
+.steps-option:hover {
+    background-color: #fafafa;
+    color: #33a1de;
+    cursor: pointer;
 }
