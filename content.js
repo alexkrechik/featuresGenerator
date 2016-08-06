@@ -18,28 +18,6 @@ function logMessage(message) {
 	console.log(message);
 }
 
-var markFoundElement = function (element) {
-	element.style.setProperty('border','thin solid #0000FF','important');
-	element.classList.add('fg-found-locator');
-};
-
-var addElementTitle = function (element, page, locator) {
-	element.title = '"' + page + '"."' + locator + '"';
-};
-
-var attMouseMoveListeners = function (element) {
-	element.addEventListener('mouseover', function (event) {
-		if (currSuggestion) {
-			element.className += ' active_element';
-			event.stopPropagation();
-		}
-	});
-	element.addEventListener('mouseout', function (event) {
-		element.className = element.className.replace( new RegExp('(?:^|\\s)active_element(?!\\S)') ,'');
-		event.stopPropagation();
-	});
-};
-
 var attOnClickListener = function (element, page, locator) {
 	element.addEventListener('click', function (event) {
 		if (currSuggestion) {
@@ -125,10 +103,9 @@ var processLocators = function () {
 var processLocator = function (pageObject, page, locator) {
 	var element = getElement(injectInvisibleValues(pageObject));
 	if (element && !element.classList.contains('fg-found-locator')) {
-		markFoundElement(element);
-		addElementTitle(element, page, locator);
+		element.classList.add('fg-found-locator');
+		element.title = '"' + page + '"."' + locator + '"';
 		attOnClickListener(element, page, locator);
 		attOnRightClickListener(element, page, locator);
-		attMouseMoveListeners(element);
 	}
 };
