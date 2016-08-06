@@ -410,7 +410,7 @@ function populateAutoComplete(e) {
 }
 
 function generatedFeaturesKeyDown(e) {
-	var arrCode = [38, 40, 13, 91];
+	var arrCode = [38, 40, 13, 91, 16, 17, 18, 9];
 	var keyCode = e.keyCode;
 	if (arrCode.indexOf(keyCode) === -1) {
 		populateAutoComplete(e);
