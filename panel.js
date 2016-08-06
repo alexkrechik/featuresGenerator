@@ -106,7 +106,7 @@ function markHighlightStatus(step) {
 
 function removeCurrentClass(e) {
 	e = e || document.getElementsByClassName('current_suggestion')[0];
-	e.className = e.className.replace( new RegExp('(?:^|\\s)current_suggestion(?!\\S)') ,'');
+	e.classList.remove('current_suggestion');
 }
 
 function addCurrentClassName(e) {
@@ -277,7 +277,7 @@ function createSuggestion(text) {
 
 function highlightSuggestionEvent(e) {
 	removeCurrentClass();
-	addCurrentClassName(e.target);
+	e.target.classList.add('current_suggestion');
 }
 
 function highlightSuggestion(num) {
@@ -290,20 +290,20 @@ function highlightSuggestion(num) {
 			case undefined:
 				if (suggestions[0]) {
 					current = suggestions[0];
-					addCurrentClassName(current);
+					current.classList.add('current_suggestion');
 				}
 				break;
 			case 'next':
 				if (current && (other = current.nextElementSibling)) {
 					removeCurrentClass();
-					addCurrentClassName(other);
+					other.classList.add('current_suggestion');
 					event.preventDefault();
 				}
 				break;
 			case 'previous':
 				if (current && (other = current.previousElementSibling)) {
 					removeCurrentClass();
-					addCurrentClassName(other);
+					other.classList.add('current_suggestion');
 					event.preventDefault();
 				}
 		}
