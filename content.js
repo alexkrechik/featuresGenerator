@@ -10,6 +10,16 @@ locators = {
 
 var currSuggestion;
 
+function setSuggestionMode(suggestion) {
+	currSuggestion = suggestion;
+	document.getElementsByTagName('body')[0].classList.add('suggestion-mode');
+}
+
+function unsetSuggestionMode() {
+	currSuggestion = null;
+	document.getElementsByTagName('body')[0].classList.remove('suggestion-mode');
+}
+
 function sendMessage(message) {
 	chrome.extension.sendMessage(message);
 }
@@ -25,7 +35,7 @@ var attOnClickListener = function (element, page, locator) {
 			step = step.replace('"page"','"' + page + '"');
 			step = step.replace('"locator"','"' + locator + '"');
 			sendMessage({suggestion: step});
-			currSuggestion = null;
+			unsetSuggestionMode();
 			event.stopPropagation();
 		} else {
 			if (event.altKey) {
