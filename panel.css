@@ -35,6 +35,19 @@
     white-space:pre-line;
 }
 
+.suggestion {
+    display: flex;
+    margin: 2px;
+    padding: 2px;
+}
+
+.suggestion:hover {
+    background-color: #fafafa;
+    color: #33a1de;
+    cursor: pointer;
+}
+
 .current_suggestion {
-    background-color: yellow;
+    background-color: #33a1de;
+    color: #ffffff;
 }
