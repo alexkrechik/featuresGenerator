@@ -47,6 +47,8 @@ var attOnClickListener = function (element, page, locator) {
 			step = step.replace('"page"','"' + page + '"');
 			step = step.replace('"locator"','"' + locator + '"');
 			sendMessage({suggestion: step});
+			currSuggestion = null;
+			event.stopPropagation();
 		} else {
 			if (event.altKey) {
 				sendMessage({step: 'When I click "' + page + '"."' + locator + '"'});
