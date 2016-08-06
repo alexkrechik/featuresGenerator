@@ -1,4 +1,8 @@
-.active_element {
+.fg-found-locator:hover {
     background-color: #ADD8E6 !important;
     opacity: 1;
+}
+
+.fg-found-locator {
+    border: thin solid #0000FF !important;
 }
