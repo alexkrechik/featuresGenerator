@@ -338,17 +338,19 @@ function generateStepText(text) {
 	if (document.getElementById("bdd-term-replace").checked) {
 		var currStep = text.match(/^[A-Za-z]*/)[0];
 		var stepsArr = document.getElementById("generatedFeatures").innerText.split(/\n/);
-		var lastStep = "";
+		var lastStep;
 		for (var i = stepsArr.length - 1; i >=0; i--) {
 			lastStep = stepsArr[i].match(/^[A-Za-z]*/)[0];
-			if (lastStep !== 'And') {
+			if (lastStep !== 'And' && lastStep !== '') {
 				if (lastStep === currStep) {
 					var re = new RegExp("^" + currStep);
-					text = text.replace(re, "And");
+					return text.replace(re, "And");
+				} else {
+					return text;
 				}
-				return text;
 			}
 		}
+		return text;
 	} else {
 		return text;
 	}
