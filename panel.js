@@ -265,8 +265,6 @@ function createSuggestion(text) {
 	element.textContent = text;
 	element.setAttribute('href','#');
 	element.setAttribute('class','suggestion');
-	element.style.display = 'flex';
-	element.style.margin = '5';
 	element.addEventListener('click', function(e) {
 		highlightSuggestionEvent(e);
 		insertStep(text);

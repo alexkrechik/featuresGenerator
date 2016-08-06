@@ -117,9 +117,7 @@ function createMenuElement(text) {
 	if (text) {
 		element.textContent = text;
 	}
-	// element.setAttribute('href','');
-	element.style.display = 'flex';
-	element.style.margin = "5";
+	element.classList.add('steps-option');
 	element.addEventListener('click', function() {
 		chrome.extension.sendMessage({step: text});
 		clearMenu();
