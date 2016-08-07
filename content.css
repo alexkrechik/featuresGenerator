@@ -7,11 +7,6 @@
     opacity: 1;
 }
 
-.active_element {
-    background-color: #add8e6 !important;
-    opacity: 1;
-}
-
 .steps-option {
     display: flex;
     margin: 2px;
@@ -19,13 +14,13 @@
 }
 
 .steps-option:hover {
-    background-color: #fafafa;
-    color: #33a1de;
+    background-color: #FAFAFA;
+    color: #33A1DE;
     cursor: pointer;
 }
 
 .suggestion-mode {
-    border-color: #33a1de;
+    border-color: #33A1DE;
     border-width: 10px;
     border-style: solid;
 }

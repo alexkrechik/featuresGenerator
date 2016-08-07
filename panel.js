@@ -105,12 +105,12 @@ function markHighlightStatus(step) {
 }
 
 function removeCurrentClass(e) {
-	e = e || document.getElementsByClassName('current_suggestion')[0];
-	e.classList.remove('current_suggestion');
+	e = e || document.getElementsByClassName('current-suggestion')[0];
+	e.classList.remove('current-suggestion');
 }
 
 function addCurrentClassName(e) {
-	e.className += ' current_suggestion';
+	e.className += ' current-suggestion';
 }
 
 function eventKeyDownDocument(event) {
@@ -123,7 +123,7 @@ function eventKeyDownDocument(event) {
 				highlightSuggestion('next');
 				break;
 			case 13:
-				var currEl = document.getElementsByClassName('current_suggestion')[0];
+				var currEl = document.getElementsByClassName('current-suggestion')[0];
 				if (currEl) {
 					insertStep(currEl.text, event);
 					break;
@@ -252,9 +252,9 @@ function eventUploadLocators(){
 
 function eventAutoStepsComplete(e){
 	if(autoComplete()) {
-		document.getElementById('steps_suggestions_block').style.display = 'table-cell';
+		document.getElementById('steps-suggestions-block').style.display = 'table-cell';
 	} else {
-		document.getElementById('steps_suggestions_block').style.display = 'none';
+		document.getElementById('steps-suggestions-block').style.display = 'none';
 	}
 }
 
@@ -274,12 +274,12 @@ function createSuggestion(text) {
 
 function highlightSuggestionEvent(e) {
 	removeCurrentClass();
-	e.target.classList.add('current_suggestion');
+	e.target.classList.add('current-suggestion');
 }
 
 function highlightSuggestion(num) {
 	var suggestions = document.getElementsByClassName('suggestion');
-	var current = document.getElementsByClassName('current_suggestion')[0];
+	var current = document.getElementsByClassName('current-suggestion')[0];
 	var other;
 	if (suggestions) {
 		switch(num) {
@@ -287,20 +287,20 @@ function highlightSuggestion(num) {
 			case undefined:
 				if (suggestions[0]) {
 					current = suggestions[0];
-					current.classList.add('current_suggestion');
+					current.classList.add('current-suggestion');
 				}
 				break;
 			case 'next':
 				if (current && (other = current.nextElementSibling)) {
 					removeCurrentClass();
-					other.classList.add('current_suggestion');
+					other.classList.add('current-suggestion');
 					event.preventDefault();
 				}
 				break;
 			case 'previous':
 				if (current && (other = current.previousElementSibling)) {
 					removeCurrentClass();
-					other.classList.add('current_suggestion');
+					other.classList.add('current-suggestion');
 					event.preventDefault();
 				}
 		}
@@ -308,16 +308,16 @@ function highlightSuggestion(num) {
 }
 
 function clearSuggestions() {
-	document.getElementById('steps_suggestions').innerHTML = "";
+	document.getElementById('steps-suggestions').innerHTML = "";
 }
 
 //******** GENERATED STEPS *******************************************************************************************//
 
 function addText (text) {
-	var features = document.getElementById("generatedFeatures");
+	var features = document.getElementById("generated-features");
 	var childs = features.childNodes;
 	if (childs.length === 0) {
-		//Insert new div for empty generatedFeatures element
+		//Insert new div for empty generated-features element
 		features.innerHTML += "<div>" + text + "</div>";
 	} else {
 		//If last string is empty - set it innerText to text
@@ -335,7 +335,7 @@ function addText (text) {
 function generateStepText(text) {
 	if (document.getElementById("bdd-term-replace").checked) {
 		var currStep = text.match(/^[A-Za-z]*/)[0];
-		var stepsArr = document.getElementById("generatedFeatures").innerText.split(/\n/);
+		var stepsArr = document.getElementById("generated-features").innerText.split(/\n/);
 		var lastStep;
 		for (var i = stepsArr.length - 1; i >=0; i--) {
 			lastStep = stepsArr[i].match(/^[A-Za-z]*/)[0];
@@ -388,13 +388,13 @@ function insertStep(currStep, event) {
 
 function populateAutoComplete(e) {
 	if(autoComplete()) {
-		document.getElementById('steps_suggestions').innerHTML = "";
+		document.getElementById('steps-suggestions').innerHTML = "";
 		var resSteps;
 		var currText = getCurrText(e);
 		var stepsArr = getStepsArr(steps);
 		resSteps = filterSteps(stepsArr, currText);
 		resSteps.forEach(function(step){
-			document.getElementById('steps_suggestions').appendChild(createSuggestion(step));
+			document.getElementById('steps-suggestions').appendChild(createSuggestion(step));
 		});
 		highlightSuggestion();
 	}
@@ -416,6 +416,6 @@ document.getElementById('upload-locators').addEventListener('click', eventUpload
 
 document.getElementById('auto-steps-complete').addEventListener('click', eventAutoStepsComplete);
 
-document.getElementById('generatedFeatures').addEventListener('keydown', generatedFeaturesKeyDown);
+document.getElementById('generated-features').addEventListener('keydown', generatedFeaturesKeyDown);
 
 document.addEventListener('keydown', eventKeyDownDocument);
