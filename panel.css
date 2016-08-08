@@ -1,3 +1,20 @@
+#upload-locators {
+    background: #4285F4;
+    border: 1px solid #4285F4;
+    border-radius: 4px;
+    color: #FFFFFF;
+    cursor: default;
+    display: inline-block;
+    font: 13px/27px Arial,sans-serif;
+    font-weight: bold;
+    line-height: 28px;
+    outline: none;
+    padding: 0 10px;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
 #steps-part-table {
     display: table;
     table-layout: fixed;
