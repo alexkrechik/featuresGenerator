@@ -1,38 +1,38 @@
-#steps_part_table {
+#steps-part-table {
     display: table;
     table-layout: fixed;
     height: 100%;
     width: 100%;
 }
 
-#steps_part {
+#steps-part {
     display: table-row;
     overflow:hidden;
     width: 100%;
 }
 
-#steps_suggestions {
+#steps-suggestions {
     border-style: solid;
     border-width: 1px;
     height:100%;
 }
 
-#steps_suggestions_block {
+#steps-suggestions-block {
     display: none;
     width: 20%;
 }
 
-#generated_steps_section {
+#generated-steps-section {
     display: table-cell;
     width: 80%;
 }
 
-#generatedFeatures {
+#generated-features {
     border-style: solid;
     border-width: 1px;
-    height:100%;
-    width:95%;
-    white-space:pre-line;
+    height: 100%;
+    width: 95%;
+    white-space: pre-line;
 }
 
 .suggestion {
@@ -42,12 +42,12 @@
 }
 
 .suggestion:hover {
-    background-color: #fafafa;
-    color: #33a1de;
+    background-color: #FAFAFA;
+    color: #33A1DE;
     cursor: pointer;
 }
 
-.current_suggestion {
-    background-color: #33a1de;
-    color: #ffffff;
+.current-suggestion {
+    background-color: #33A1DE;
+    color: #FFFFFF;
 }
