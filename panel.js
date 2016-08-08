@@ -253,6 +253,8 @@ function eventUploadLocators(){
 function eventAutoStepsComplete(e){
 	if(autoComplete()) {
 		document.getElementById('steps-suggestions-block').style.display = 'table-cell';
+		populateAutoComplete();
+		document.getElementById("generated-features").focus();
 	} else {
 		document.getElementById('steps-suggestions-block').style.display = 'none';
 	}
@@ -266,6 +268,7 @@ function createSuggestion(text) {
 	element.setAttribute('href','#');
 	element.setAttribute('class','suggestion');
 	element.addEventListener('click', function(e) {
+		document.getElementById("generated-features").focus();
 		highlightSuggestionEvent(e);
 		insertStep(text);
 	});
@@ -316,8 +319,8 @@ function clearSuggestions() {
 function addText (text) {
 	var features = document.getElementById("generated-features");
 	var childs = features.childNodes;
-	if (childs.length === 0) {
-		//Insert new div for empty generated-features element
+	if (childs.length === 0 || childs.length === 1) {
+		//Insert new div for empty generated-features element or if we have one string
 		features.innerHTML += "<div>" + text + "</div>";
 	} else {
 		//If last string is empty - set it innerText to text
@@ -390,7 +393,7 @@ function populateAutoComplete(e) {
 	if(autoComplete()) {
 		document.getElementById('steps-suggestions').innerHTML = "";
 		var resSteps;
-		var currText = getCurrText(e);
+		var currText = e ? getCurrText(e) : "";
 		var stepsArr = getStepsArr(steps);
 		resSteps = filterSteps(stepsArr, currText);
 		resSteps.forEach(function(step){
