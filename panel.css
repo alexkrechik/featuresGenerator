@@ -1,3 +1,13 @@
+/*Global Styles==============================================================*/
+button {
+    cursor: pointer;
+}
+
+input[type="file"] {
+    cursor: pointer;
+}
+/*===========================================================================*/
+
 #page-object-name {
     margin-right: 22px;
 }
@@ -5,13 +15,11 @@
 #upload-locators {
     background: #4285F4;
     border: 1px solid #4285F4;
-    border-radius: 2px;
     color: #FFFFFF;
-    cursor: default;
     display: inline-block;
     font: 13px/27px Arial,sans-serif;
     font-weight: bold;
-    line-height: 21px;
+    line-height: 18px;
     outline: none;
     padding: 0 10px;
     text-align: center;
@@ -21,6 +29,11 @@
 
 #files-uploading {
     margin-bottom: 5px;
+}
+
+.file-upload {
+    border: 0px;
+    padding: 1px;
 }
 
 #steps-part-table {
