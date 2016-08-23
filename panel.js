@@ -124,10 +124,16 @@ function eventKeyDownDocument(event) {
 				break;
 			case 13:
 				var currEl = document.getElementsByClassName('current-suggestion')[0];
-				if (currEl) {
-					insertStep(currEl.text, event);
-					break;
+				if (currEl && !event.altKey && !event.shiftKey) {
+					if (currEl.text && currEl.text !== getDivFocusText()) {
+						setSelectionText(currEl.text);
+						markHighlightStatus(currEl.text);
+						event.preventDefault();
+					} else {
+						populateAutoComplete();
+					}
 				}
+				break;
 		}
 	}
 }
@@ -169,7 +175,8 @@ function getlocators(data) {
 function clearLocator(fileName, locatorsPageName) {
 	var element = document.getElementById('uploaded-locator-id' + fileName);
 	document.getElementById('uploaded-locators').removeChild(element);
-	chrome.devtools.inspectedWindow.eval('delete locators["' + locatorsPageName + '"];',{useContentScriptContext: true}, function(result, err) {
+	chrome.devtools.inspectedWindow.eval('delete locators["' + locatorsPageName + '"];',{useContentScriptContext: true},
+		function(result, err) {
 		if (err) {
 			addError(err, 'Error during locators clearing');
 		}
@@ -270,7 +277,8 @@ function createSuggestion(text) {
 	element.addEventListener('click', function(e) {
 		document.getElementById("generated-features").focus();
 		highlightSuggestionEvent(e);
-		insertStep(text);
+		markHighlightStatus(text);
+		setSelectionText(text);
 	});
 	return element;
 }
@@ -316,22 +324,23 @@ function clearSuggestions() {
 
 //******** GENERATED STEPS *******************************************************************************************//
 
-function addText (text) {
+function getLastChild() {
 	var features = document.getElementById("generated-features");
 	var childs = features.childNodes;
 	if (childs.length === 0 || childs.length === 1) {
-		//Insert new div for empty generated-features element or if we have one string
-		features.innerHTML += "<div>" + text + "</div>";
+		return features;
 	} else {
-		//If last string is empty - set it innerText to text
-		//Create newline div otherwise
-		var lastChild = childs[childs.length - 1];
-		var lastChildText = lastChild.innerHTML && lastChild.innerHTML.toString();
-		if (!lastChildText || lastChildText === '<br>') {
-			lastChild.innerHTML = text;
-		} else {
-			features.innerHTML += "<div>" + text + "</div>";
-		}
+		return childs[childs.length - 1];
+	}
+}
+
+function addText (text) {
+	var lastChild = getLastChild();
+	var features = document.getElementById("generated-features");
+	if (lastChild.innerHTML === '' || lastChild.innerHTML === '<br>') {
+		lastChild.innerHTML = text;
+	} else {
+		features.innerHTML += "<div>" + text + "</div>";
 	}
 }
 
@@ -351,10 +360,8 @@ function generateStepText(text) {
 				}
 			}
 		}
-		return text;
-	} else {
-		return text;
 	}
+	return text;
 }
 
 function getDivFocusText() {
@@ -376,16 +383,20 @@ function getCurrText(e) {
 	return text;
 }
 
-function setSelectionText(text) {
-	window.getSelection().focusNode.textContent = text;
-}
-
-function insertStep(currStep, event) {
-	var textContent = getDivFocusText();
-	if (currStep && currStep !== textContent) {
-		setSelectionText(currStep);
-		markHighlightStatus(currStep);
-		event.preventDefault();
+function setSelectionText(text, changeLastElement) {
+	//If we have some selection text - sent "text" parameter as its first string
+	//Otherwise, if changeLastElement is true - change last string of generated-features
+	//Else add string in the end of generated-features block
+	var parentId = window.getSelection().focusNode && window.getSelection().focusNode.parentElement.parentElement.id;
+	var lastElement = getLastChild();
+	if (parentId === 'generated-features') {
+		window.getSelection().focusNode.textContent = text;
+	} else {
+		if (changeLastElement) {
+			lastElement.innerText = text;
+		} else {
+			addText(text);
+		}
 	}
 }
 

@@ -15,10 +15,9 @@ chrome.devtools.panels.create("Features Generator",
 			        _window.addText('<br>');
 		        } else if (msg.suggestion) {
 			        //Got some suggestion from content page
-			        _window.setSelectionText('');
-			        _window.setSelectionText(_window.generateStepText(msg.suggestion));
+			        _window.setSelectionText(_window.generateStepText(msg.suggestion), true);
 			        _window.addText('<br>');
-			        _window.clearSuggestions();
+			        _window.populateAutoComplete();
 		        }
 	        }
         });
